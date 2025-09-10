@@ -1,0 +1,43 @@
+Putting theory into practice by working with small databases in DB Browser for SQLite.
+  - DB consists of 4 tables - products, order_items, orders, customers
+  - Solving the following problems:
+1. Find the number of orders per customer, sorted by the most active customers first.
+    SELECT 
+        c.customer_id, 
+        c.name,
+        COUNT(o.order_id) AS order_count
+    FROM customers c
+    LEFT JOIN orders o ON c.customer_id = o.customer_id
+    GROUP BY c.customer_id, c.name
+    ORDER BY order_count DESC;
+
+2. Write a query to list all orders where the total value (quantity × price) is greater than 500.
+    SELECT 
+        o.order_id,
+        SUM(oi.quantity * oi.price) AS order_total
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    GROUP BY o.order_id
+    HAVING SUM(oi.quantity * oi.price) > 500
+    ORDER BY order_total DESC;
+
+3. Write a query to find the top 3 products by total quantity sold.
+
+    SELECT 
+        p.product_id, 
+        p.product_name, 
+        SUM(oi.quantity) AS total_sold
+    FROM products p
+    JOIN order_items oi ON p.product_id = oi.product_id
+    GROUP BY p.product_id, p.product_name
+    ORDER BY total_sold DESC
+    LIMIT 3;
+
+4. Write a query to show, for each country, how many distinct customers placed at least one order.
+    SELECT 
+        c.country,
+        COUNT(DISTINCT c.customer_id) AS distinct_customers
+    FROM customers c
+    JOIN orders o ON c.customer_id = o.customer_id
+    GROUP BY c.country
+    ORDER BY distinct_customers DESC;
