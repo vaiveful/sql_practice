@@ -1,4 +1,4 @@
-# sql_practice
+# sql_practice_part 1
 Refreshed my SQL knowledge
 I worked through SQLBolt Tutorial (https://sqlbolt.com/lesson) in order to refresh my SQL knowledge. 
 I learned the following:
